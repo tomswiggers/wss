@@ -17,7 +17,7 @@ const (
   StopCharacter = "\r\n\r\n"
 )
 
-func SocketClient(ip string, port int) {
+func TestTcp(ip string, port int) {
   log.Printf("Try to connect to %s on port %d with message %s", ip, port, message)
   timeout := time.Duration(5) * time.Second
   addr := strings.Join([]string{ip, strconv.Itoa(port)}, ":")
@@ -40,20 +40,8 @@ func SocketClient(ip string, port int) {
   log.Printf("Receive: %s", buff[:n])
 }
 
-func main() {
-  urlStr := flag.String("url", "wss://echo.websocket.org:8080", "the url of the websocket server")
-  flag.Parse()
-
+func TestWebsocket(url string) {
   origin := "http://localhost/"
-  url := *urlStr
-
-  var (
-    ip = "127.0.0.1"
-    port = 22
-  )
-
-  SocketClient(ip, port)
-
 
   config, err := websocket.NewConfig(url, origin)
   config.TlsConfig = &tls.Config{InsecureSkipVerify: true}
@@ -77,4 +65,19 @@ func main() {
   }
 
   log.Printf("Connecting to <%s> Received <%s>\n", url, msg[:n])
+}
+
+func main() {
+  urlStr := flag.String("url", "wss://echo.websocket.org:8080", "the url of the websocket server")
+  flag.Parse()
+
+  url := *urlStr
+
+  var (
+    ip = "127.0.0.1"
+    port = 22
+  )
+
+  TestTcp(ip, port)
+  TestWebsocket(url)
 }
