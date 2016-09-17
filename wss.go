@@ -69,15 +69,25 @@ func TestWebsocket(url string) {
 
 func main() {
   urlStr := flag.String("url", "wss://echo.websocket.org:8080", "the url of the websocket server")
+  testSshBool := flag.Bool("testSsh", false, "test ssh")
+  testWssBool := flag.Bool("testWss", false, "test websocket")
+
   flag.Parse()
 
   url := *urlStr
+  testSsh := *testSshBool
+  testWss := *testWssBool
 
   var (
     ip = "127.0.0.1"
     port = 22
   )
 
-  TestTcp(ip, port)
-  TestWebsocket(url)
+  if testSsh {
+    TestTcp(ip, port)
+  }
+
+  if testWss {
+    TestWebsocket(url)
+  }
 }
