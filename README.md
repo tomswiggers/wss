@@ -2,8 +2,10 @@
 
 ## Set GOPATH to current dir.
 
+```
 GOPATH=`pwd`
 export GOPATH
+```
 
 ## Get websocket lib
  
